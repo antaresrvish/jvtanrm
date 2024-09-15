@@ -1,8 +1,13 @@
 <script setup>
-</script>
+
+    import navbar from './components/navbar.vue';
+    import login from './views/login.vue';
+
+</script>   
 
 <template>
-    <div class="text-3xl font-bold underline bg-red-600 ">hello world</div>
+    <navbar></navbar>
+    <login></login>
 </template>
 
 <style scoped>
