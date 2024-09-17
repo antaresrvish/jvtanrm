@@ -5,8 +5,16 @@ class User {
     try {
       const [rows] = await db.promise().query('SELECT * FROM users WHERE email = ?', [email]);
       return rows[0];
-    } catch (error) {
-      console.error('ex:', error);
+    } catch (ex) {
+      console.error('ex:', ex);
+    }
+  }
+  static async findById(id) {
+    try {
+      const [rows] = await db.promise().query('SELECT * FROM users WHERE id = ?', [id]);
+      return rows[0];
+    } catch (ex) {
+      console.error('ex:', ex);
     }
   }
 }

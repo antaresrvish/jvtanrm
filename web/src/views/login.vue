@@ -1,5 +1,5 @@
 <template>
-    <div class="flex justify-center items-center h-screen">
+  <div v-if="!isLoggedIn" class="flex justify-center items-center h-screen">
     <div class="bg-zinc-900 p-6 rounded-lg shadow-lg shadow-colorSecondary justify-center flex flex-col ">
       <h1 class="text-2xl font-thin  mb-4 text-center text-colorText font-sans">LOGIN</h1>
       <form @submit.prevent="handleSubmit">
@@ -49,6 +49,8 @@ import { resolveComponent } from 'vue';
             password: this.password
           });
           localStorage.setItem('token', res.data.token);
+          console.log('yonlendirmebasio');
+          this.$router.push('/');  
         }catch(ex){
           console.error(  ex.response.data);
         }
@@ -59,5 +61,15 @@ import { resolveComponent } from 'vue';
         passwordInput.type = this.showPassword ? 'text' : 'password';
       },
     },
+    mounted() {
+      const token = localStorage.getItem('token');
+      this.isLoggedIn = !!token;
+    },
+    watch: {
+      '$route': function(to, from) {
+        const token = localStorage.getItem('token');
+        this.isLoggedIn = !!token;
+      }
+    }
   };
 </script>
