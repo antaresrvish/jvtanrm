@@ -52,7 +52,7 @@ import { resolveComponent } from 'vue';
           console.log('yonlendirmebasio');
           this.$router.push('/');  
         }catch(ex){
-          console.error(  ex.response.data);
+          console.log(  ex.response.data);
         }
       },
       togglePasswordVisibility() {

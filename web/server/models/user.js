@@ -6,7 +6,7 @@ class User {
       const [rows] = await db.promise().query('SELECT * FROM users WHERE email = ?', [email]);
       return rows[0];
     } catch (ex) {
-      console.error('ex:', ex);
+      console.log('ex:', ex);
     }
   }
   static async findById(id) {
@@ -14,7 +14,7 @@ class User {
       const [rows] = await db.promise().query('SELECT * FROM users WHERE id = ?', [id]);
       return rows[0];
     } catch (ex) {
-      console.error('ex:', ex);
+      console.log('ex:', ex);
     }
   }
 }
