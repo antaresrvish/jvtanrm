@@ -57,7 +57,6 @@ const upload = multer({ storage: multer.memoryStorage() });
 router.post('/addcomp',upload.fields([
   { name: 'companyAvatar', maxCount: 1 },
   { name: 'companyPhoto', maxCount: 1 },
-  { name: 'companyGifVideo', maxCount: 1 }
 ]),async (req, res) => {
   const token = req.headers.authorization?.split(' ')[1]; 
   console.log(token);
@@ -72,9 +71,8 @@ router.post('/addcomp',upload.fields([
   const { companyName, companyBio } = req.body;
   const avatar = req.files['companyAvatar'] ? req.files['companyAvatar'][0].buffer : null;
   const photo = req.files['companyPhoto'] ? req.files['companyPhoto'][0].buffer : null;
-  const gifVideo = req.files['companyGifVideo'] ? req.files['companyGifVideo'][0].buffer : null;
-  const sql = `INSERT INTO user_data (user_id, compname, compbio, compavatar, compgif, comppic) VALUES (?, ?, ?, ?, ?, ?)`;
-  db.query(sql, [userId, companyName, companyBio, avatar, photo, gifVideo], (ex, result) => {
+  const sql = `INSERT INTO user_data (user_id, compname, compbio, compavatar, comppic) VALUES (?, ?, ?, ?, ?)`;
+  db.query(sql, [userId, companyName, companyBio, avatar, photo], (ex, result) => {
     if (ex) {
       console.log("error while inserting to the database", ex);
       return res.status(500).json({ message: 'database error' });

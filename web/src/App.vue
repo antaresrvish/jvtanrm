@@ -7,7 +7,6 @@
 </script>   
 
 <template>
-    <navbar></navbar>
     <router-view/>
 </template>
 

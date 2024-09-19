@@ -7,11 +7,11 @@ export default {
   theme: {
     extend: {
       colors: {
-        colorText: '#e9f0ec',
-        colorBackground: '#1d2420',
+        colorText: '#111817',
+        colorBackground: '#FFFFFF',
         colorPrimary: '#a3cbb9',
         colorSecondary: '#386e55',
-        colorAccent: '#55b387'
+        colorAccent: '#1A56DB'
       },
       fontFamily: {
         sans: [
