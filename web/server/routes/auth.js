@@ -15,7 +15,7 @@ router.post('/login', async (req, res) => {
     if(password != user.password){
       return res.status(401).json({message: 'password is not equal'});
     }
-    const token = jwt.sign({userId: user.id}, 'scrt', {expiresIn: '1h'});
+    const token = jwt.sign({userId: user.id}, 'scrt', {expiresIn: '24h'});
     res.json({token});
     console.log('tokenok');
   }catch(ex){
