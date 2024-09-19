@@ -41,7 +41,6 @@
               <tr
                 v-for="userData in userData"
                 :key="userData.data_id"
-                :set="(clickedCompId = userData.data_id, clickedCompName = userData.compname)"
                 class="border-b border-gray-300 hover:bg-blue-100 duration-300 bg-white"
               >
                 <td class="p-3 px-5 flex flex-row">
@@ -57,13 +56,13 @@
                     {{ userData.compname }}
                   </button>
                 </td>
-                <td class="p-3 px-5 border-l border-gray-300">
-                  <p class="font-thin text-lg">{{ userData.compbio }}</p>
+                <td class="p-3 px-5 border-l border-gray-300 ">
+                  <div class="font-thin text-lg truncate text-ellipsis">{{ userData.compbio }}</div>
                 </td>
                 <td class="p-3 px-5"></td>
                 <td class="p-3 px-5 border-l border-gray-300">
                   <button
-                    v-on:click="test"
+                    v-on:click="openTab(userData.data_id)"
                     class="duration-300 text-white p-2 rounded-full inline-flex items-center mr-2 hover:bg-green-300"
                   >
                     <svg
@@ -82,7 +81,7 @@
                     </svg>
                   </button>
                   <button
-                    @click="showEdit = true"
+                    @click="openEdit(userData)"
                     class="duration-300 text-white inline-flex items-center p-2 rounded-full hover:bg-blue-300"
                   >
                     <svg
@@ -101,7 +100,7 @@
                     </svg>
                   </button>
                   <button
-                    @click="showUsure = true"
+                    @click="openDelete(userData.data_id)"
                     class="duration-300 text-white rounded-full ml-2 p-2 inline-flex items-center hover:bg-red-300"
                   >
                     <svg
@@ -125,170 +124,123 @@
           </table>
         </div>
         <newModal :isVisible="showNew" @close="showNew = false">
-          <div class="flex flex-col justify-center">
-            <div class="flex flex-col items-center">
-              <h1 class="font-mono">Add new company</h1>
-            </div>
-            <form @submit.prevent="handleSubmit" class="mt-2">
+          <div class="bg-white rounded-lg shadow-md p-6">
+            <h1 class="text-2xl font-bold text-center mb-4">Create</h1>
+            <form @submit.prevent="handleSubmit" class="grid gap-4">
               <div class="mb-4">
-                <label for="companyName" class="block text-colorText font-mono mb-2"
-                  >Company Name</label
-                >
+                <label for="companyName" class="block text-gray-700 font-medium mb-2">Company Name</label>
                 <input
                   type="text"
                   id="companyName"
                   v-model="companyName"
-                  class="shadow border mb-2 border-black rounded-lg w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline bg-colorBackground"
+                  class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   required
                 />
-
-                <label for="companyBio" class="block text-colorText font-mono mb-2"
-                  >Company biography</label
-                >
+              </div>
+              <div class="mb-4">
+                <label for="companyBio" class="block text-gray-700 font-medium mb-2">Company biography</label>
                 <textarea
                   id="companyBio"
                   v-model="companyBio"
-                  class="shadow border mb-2 border-black rounded-lg w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline bg-colorBackground"
+                  class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   required
                 ></textarea>
-
-                <label
-                  for="companyAvatar"
-                  class="block text-colorText font-thin font-sans mb-2"
-                  >upload avatar</label
-                >
-                <input
-                  type="file"
-                  id="companyAvatar"
-                  accept="image/*, video/*"
-                  ref="companyAvatar"
-                  class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 duration-300 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-colorSecondary file:text-white hover:file:bg-colorPrimary"
-                />
-
-                <label
-                  for="companyPhoto"
-                  class="block text-colorText font-thin font-sans mb-2"
-                  >upload photo</label
-                >
-                <input
-                  type="file"
-                  id="companyPhoto"
-                  accept="image/gif"
-                  ref="companyPhoto"
-                  class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 duration-300 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-colorSecondary file:text-white hover:file:bg-colorPrimary"
-                />
               </div>
+              <input class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 duration-300 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-colorAccent file:text-white hover:file:bg-blue-800"
+               type="file" id="companyAvatar" @change="onAvatarChange" ref="companyAvatar" />
+                <div v-if="avatarPreview">
+                  <img :src="avatarPreview" alt="Avatar Preview" class="w-32 h-32">
+                </div>
+
+                <input class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 duration-300 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-colorAccent file:text-white hover:file:bg-blue-800" 
+                type="file" id="companyPhoto" @change="onPhotoChange" ref="companyPhoto"/>
+                <div v-if="photoPreview">
+                  <img :src="photoPreview" alt="Photo Preview" class="w-32 h-32">
+                </div>
               <button
                 type="submit"
-                class="bg-colorSecondary hover:bg-colorPrimary hover:text-black duration-300 text-white font-thin w-full py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                class="bg-colorAccent hover:bg-blue-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               >
-                create
+                Ok
               </button>
-            </form>
+            </form>     
           </div>
         </newModal>
         <usureModal :isVisible="showUsure" @close="showUsure = false">
           <div class="flex flex-col justify-center items-center">
-            <h2 class="font-mono text-xl">Are u sure?</h2>
-            <div class="flex flex-row mt-5">
+            <h2 class="text-2xl font-bold text-center mb-4">Are u sure?</h2>
+            <div class="flex flex-row mt-0">
               <button
                 class="bg-green-600 mr-4 p-2 w-24 rounded text-white hover:bg-green-700 duration-300"
                 @click="handleDelete(clickedCompId)"
               >
-                yes
+                Yes
               </button>
               <button
                 class="bg-red-600 w-24 p-2 rounded text-white hover:bg-red-700 duration-300"
                 @click="showUsure = false"
               >
-                no
+                No
               </button>
             </div>
           </div>
         </usureModal>
-        <infoModal :isVisible="showInfo" @close="showInfo = false">
-          <div class="H-60 flex flex-col justify-center z-50">
-            <div class="overflow-hidden w-full">
-              <img
-                src="../assets/ha.png"
-                class="w-full h-32 object-cover"
-                alt="Background Image"
-              />
-              <div class="-mt-12 flex flex-col justify-center items-center">
-                <img
-                  src="../assets/a.jpeg"
-                  class="w-24 h-24 rounded-full border-4 border-white"
-                  alt="Profile Picture"
-                />
-                <div class="text-center">
-                  <h2 class="text-2xl font-bold text-colorText">
-                    {{ userData.compname }}
-                  </h2>
-                  <p class="text-lg text-gray-400 mt-2">{{ userData.companyBio }}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </infoModal>
         <editModal :isVisible="showEdit" @close="showEdit = false">
-          <div class="flex flex-col justify-center">
-            <div class="flex flex-col items-center">
-              <h1 class="font-mono">Add new company</h1>
-            </div>
-            <form @submit.prevent="handleSubmit" class="mt-2" >
+          <div class="bg-white rounded-lg shadow-md p-6">
+            <h1 class="text-2xl font-bold text-center mb-4">Edit</h1>
+            <form @submit.prevent="handleEdit(clickedCompId)" class="grid gap-4">
               <div class="mb-4">
-                <label for="companyName" class="block text-colorText font-mono mb-2"
-                  >{{clickedCompName}}</label
-                >
+                <label for="companyName" class="block text-gray-700 font-medium mb-2">Company Name</label>
                 <input
                   type="text"
                   id="companyName"
-                  v-model="companyName"
-                  class="shadow border mb-2 border-black rounded-lg w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline bg-colorBackground"
+                  v-model="clickedCompName"
+                  class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   required
                 />
-
-                <label for="companyBio" class="block text-colorText font-mono mb-2"
-                  >Company biography</label
-                >
+              </div>
+              <div class="mb-4">
+                <label for="companyBio" class="block text-gray-700 font-medium mb-2">Company biography</label>
                 <textarea
                   id="companyBio"
-                  v-model="companyBio"
-                  class="shadow border mb-2 border-black rounded-lg w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none focus:shadow-outline bg-colorBackground"
+                  v-model="clickedCompBio"
+                  class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   required
                 ></textarea>
-
-                <label
-                  for="companyAvatar"
-                  class="block text-colorText font-thin font-sans mb-2"
-                  >upload avatar</label
-                >
+              </div>
+              <div class="mb-4">
+                <label for="companyAvatar" class="block text-gray-700 font-medium mb-2">Upload avatar</label>
                 <input
                   type="file"
                   id="companyAvatar"
                   accept="image/*, video/*"
                   ref="companyAvatar"
-                  class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 duration-300 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-colorSecondary file:text-white hover:file:bg-colorPrimary"
+                  class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 duration-300 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-colorAccent file:text-white hover:file:bg-blue-800"
+                  @change="onAvatarChange"
                 />
-
-                <label
-                  for="companyPhoto"
-                  class="block text-colorText font-thin font-sans mb-2"
-                  >upload photo</label
-                >
+                <div v-if="avatarPreview">
+                  <img :src="avatarPreview" class="mt-2 w-14 h-14 rounded-md border border-gray-300">
+                </div>
+              </div>
+              <div class="mb-4">
+                <label for="companyPhoto" class="block text-gray-700 font-medium mb-2">Upload photo</label>
                 <input
                   type="file"
                   id="companyPhoto"
                   accept="image/gif"
                   ref="companyPhoto"
-                  class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 duration-300 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-colorSecondary file:text-white hover:file:bg-colorPrimary"
+                  class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 duration-300 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-colorAccent file:text-white hover:file:bg-blue-800"
+                  @change="onPhotoChange"
                 />
+                <div v-if="photoPreview">
+                  <img :src="photoPreview" class="mt-2 w-14 h-14 rounded-md border border-gray-300">
+                </div>
               </div>
               <button
                 type="submit"
-                class="bg-colorSecondary hover:bg-colorPrimary hover:text-black duration-300 text-white font-thin w-full py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                class="bg-colorAccent hover:bg-blue-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               >
-                create
+                Ok
               </button>
             </form>
           </div>
@@ -303,7 +255,6 @@ import axios from "axios";
 import { resolveComponent } from "vue";
 import newModal from "../components/newModal.vue";
 import usureModal from "../components/usureModal.vue";
-import infoModal from "../components/infoModal.vue";
 import navbar from "../components/navbar.vue";
 import editModal from "../components/editModal.vue";
 export default {
@@ -312,7 +263,6 @@ export default {
     navbar,
     newModal,
     usureModal,
-    infoModal,
     editModal,
   },
   data() {
@@ -320,7 +270,6 @@ export default {
       isLoggedIn: false,
       userData: [],
       showNew: false,
-      showInfo: false,
       showUsure: false,
       showEdit: false,
       companyName: "",
@@ -332,6 +281,8 @@ export default {
       clickedCompBio: undefined,
       clickedCompAvatar: undefined,
       clickedCompPic: undefined,
+      avatarPreview: null,
+      photoPreview: null,
     };
   },
 
@@ -359,7 +310,6 @@ export default {
           } else {
             user.avatarUrl = "";
           }
-          console.log(user);
           return user;
         });
       } catch (ex) {
@@ -389,9 +339,37 @@ export default {
         console.log("error", ex);
       }
     },
+    async handleEdit(dataId){
+      try {
+        const formData = new FormData();
+        formData.append("companyName", this.clickedCompName);
+        formData.append("companyBio", this.clickedCompBio);
+        formData.append("companyId", dataId);
+        if (this.$refs.companyAvatar.files[0]) {
+          formData.append("companyAvatar", this.$refs.companyAvatar.files[0]);
+        }
+        if (this.$refs.companyPhoto.files[0]) {
+          formData.append("companyPhoto", this.$refs.companyPhoto.files[0]);
+        }
+
+        const response = await axios.put(
+          `http://localhost:3000/api/auth/updatecomp/${dataId}`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        this.loadUser();
+        this.showEdit = false;
+      } catch (ex) {
+        console.log("error", ex);
+      }
+    },
     async handleDelete(dataId) {
       try {
-        console.log(dataId);
         await axios.delete(`http://localhost:3000/api/auth/deletecomp/${dataId}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -402,6 +380,38 @@ export default {
       } catch (ex) {
         console.log("error while deleting", ex);
       }
+    },
+    openEdit(userData) {
+      this.clickedCompId = userData.data_id;
+      this.clickedCompName = userData.compname;
+      this.clickedCompBio = userData.compbio;
+      this.showEdit = true;
+    },
+    openTab(id){
+      const dataToPass = id;
+      const url = new URL('/test', window.location.origin);
+      url.searchParams.set('data', JSON.stringify(dataToPass));
+      window.open(url.toString(), '_blank');
+    },
+    openDelete(id){
+      this.clickedCompId = id;
+      this.showUsure = true;
+    },
+    onAvatarChange(event) {
+      const file = event.target.files[0];
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        this.avatarPreview = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    },
+    onPhotoChange(event) {
+      const file = event.target.files[0];
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        this.photoPreview = e.target.result;
+      };
+      reader.readAsDataURL(file);
     },
   },
   mounted() {
