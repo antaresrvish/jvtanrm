@@ -6,7 +6,7 @@ import test from '../views/test.vue'
 const routes = [
   { path: '/login', component: login },
   { path: '/', component: home, meta: { requiresAuth: true }  },
-  { path: '/test', component: test }
+  { path: '/test', component: test, meta: {requiresAuth: true}  }
 ];
 
 const router = createRouter({
@@ -25,6 +25,6 @@ router.beforeEach((to, from, next) => {
     } else {
       next();
     }
-  });
+});
 
 export default router;

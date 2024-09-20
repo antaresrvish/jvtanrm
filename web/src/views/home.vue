@@ -126,8 +126,8 @@
         <newModal :isVisible="showNew" @close="showNew = false">
           <div class="bg-white rounded-lg shadow-md p-6">
             <h1 class="text-2xl font-bold text-center mb-4">Create</h1>
-            <form @submit.prevent="handleSubmit" class="grid gap-4">
-              <div class="mb-4">
+            <form @submit.prevent="handleSubmit" class="grid">
+              <div class="mb-1">
                 <label for="companyName" class="block text-gray-700 font-medium mb-2">Company Name</label>
                 <input
                   type="text"
@@ -137,7 +137,7 @@
                   required
                 />
               </div>
-              <div class="mb-4">
+              <div class="mb-1">
                 <label for="companyBio" class="block text-gray-700 font-medium mb-2">Company biography</label>
                 <textarea
                   id="companyBio"
@@ -146,17 +146,21 @@
                   required
                 ></textarea>
               </div>
-              <input class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 duration-300 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-colorAccent file:text-white hover:file:bg-blue-800"
-               type="file" id="companyAvatar" @change="onAvatarChange" ref="companyAvatar" />
-                <div v-if="avatarPreview">
-                  <img :src="avatarPreview" alt="Avatar Preview" class="w-32 h-32">
+              <div class="flex flex-col">
+                <label for="companyAvatar" class="block text-colorText font-thin font-sans">Upload avatar</label>
+                <input  accept="image/*" class="block  w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 duration-300 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-colorAccent file:text-white hover:file:bg-blue-800"
+               type="file" id="companyAvatar" @change="onAvatarChange" ref="companyAvatar" required />
+                <div v-if="avatarPreview" class="flex justify-start">
+                  <img :src="avatarPreview" alt="Avatar Preview" class="my-1 w-10 h-10 rounded">
                 </div>
-
-                <input class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 duration-300 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-colorAccent file:text-white hover:file:bg-blue-800" 
-                type="file" id="companyPhoto" @change="onPhotoChange" ref="companyPhoto"/>
-                <div v-if="photoPreview">
-                  <img :src="photoPreview" alt="Photo Preview" class="w-32 h-32">
+                <label for="companyPhoto" class="block text-colorText font-thin font-sans">Upload gif</label>
+                <input  accept="image/gif" class="block mb-1 w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 duration-300 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-colorAccent file:text-white hover:file:bg-blue-800" 
+                type="file" id="companyPhoto" @change="onPhotoChange" ref="companyPhoto" required/>
+                <div v-if="photoPreview"  class="flex justify-start">
+                  <img :src="photoPreview" alt="Photo Preview" class="w-10 h-10 mb-1 rounded">
                 </div>
+              </div>
+              
               <button
                 type="submit"
                 class="bg-colorAccent hover:bg-blue-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
@@ -187,10 +191,10 @@
         </usureModal>
         <editModal :isVisible="showEdit" @close="showEdit = false">
           <div class="bg-white rounded-lg shadow-md p-6">
-            <h1 class="text-2xl font-bold text-center mb-4">Edit</h1>
-            <form @submit.prevent="handleEdit(clickedCompId)" class="grid gap-4">
+            <h1 class="text-2xl font-bold text-center mb-2">Edit</h1>
+            <form @submit.prevent="handleEdit(clickedCompId)" class="grid">
               <div class="mb-4">
-                <label for="companyName" class="block text-gray-700 font-medium mb-2">Company Name</label>
+                <label for="companyName" class="block text-gray-700 font-medium mb-1">Company Name</label>
                 <input
                   type="text"
                   id="companyName"
@@ -199,8 +203,8 @@
                   required
                 />
               </div>
-              <div class="mb-4">
-                <label for="companyBio" class="block text-gray-700 font-medium mb-2">Company biography</label>
+              <div class="mb-0">
+                <label for="companyBio" class="block text-gray-700 font-medium mb-1">Company biography</label>
                 <textarea
                   id="companyBio"
                   v-model="clickedCompBio"
@@ -208,8 +212,8 @@
                   required
                 ></textarea>
               </div>
-              <div class="mb-4">
-                <label for="companyAvatar" class="block text-gray-700 font-medium mb-2">Upload avatar</label>
+              <div class="mb-0">
+                <label for="companyAvatar" class="block text-gray-700 font-medium mb-0">Upload avatar</label>
                 <input
                   type="file"
                   id="companyAvatar"
@@ -219,21 +223,21 @@
                   @change="onAvatarChange"
                 />
                 <div v-if="avatarPreview">
-                  <img :src="avatarPreview" class="mt-2 w-14 h-14 rounded-md border border-gray-300">
+                  <img :src="avatarPreview" class="mt-1 w-10 h-10 rounded-md border border-gray-300">
                 </div>
               </div>
-              <div class="mb-4">
-                <label for="companyPhoto" class="block text-gray-700 font-medium mb-2">Upload photo</label>
+              <div class="mb-0">
+                <label for="companyPhoto" class="block text-gray-700 font-medium mb-0">Upload photo</label>
                 <input
                   type="file"
                   id="companyPhoto"
                   accept="image/gif"
                   ref="companyPhoto"
-                  class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 duration-300 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-colorAccent file:text-white hover:file:bg-blue-800"
+                  class="block w-full mb-1 text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 duration-300 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-colorAccent file:text-white hover:file:bg-blue-800"
                   @change="onPhotoChange"
                 />
                 <div v-if="photoPreview">
-                  <img :src="photoPreview" class="mt-2 w-14 h-14 rounded-md border border-gray-300">
+                  <img :src="photoPreview" class="my-1 w-10 h-10 rounded-md border border-gray-300">
                 </div>
               </div>
               <button

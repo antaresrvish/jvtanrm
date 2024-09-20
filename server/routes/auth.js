@@ -114,4 +114,19 @@ router.delete('/deletecomp/:id', (req, res) => {
   });
 });
 
+router.post('/getdata', (req, res) => {
+  try{
+    const { id } = req.body;
+    db.query('SELECT * FROM user_data WHERE data_id = ?', [id], (ex, results) => {
+    if(ex){
+      return res.status(500).json({error: ex.message});
+    }
+    res.json(results);
+    });
+  }catch(ex){
+    console.log(ex);
+    res.status(500).json({ message: 'server side ex'});
+  }
+});
+
 module.exports = router;
