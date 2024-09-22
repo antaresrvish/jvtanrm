@@ -11,7 +11,7 @@
           <p class="text-gray-500">{{ userData.compbio }}</p>
       </div>
       <div class="p-4 border-t mx-8 mt-2">
-          <button @click="talk" class="w-1/2 block mx-auto rounded-full bg-colorAccent hover:bg-blue-800 duration-300 font-semibold text-white px-6 py-2">Talk</button>
+          <button  @click="toggleAvatar" class="w-full mx-auto rounded-full bg-colorAccent hover:bg-blue-800 duration-300 font-semibold text-white px-6 py-2">{{buttonText}}</button>
       </div>
     </div>  
   </div>
@@ -32,6 +32,10 @@
           data: null,
           userData: [],
           userAvatar: undefined,
+          isGifPlaying: false,
+          audioPlayer: null,
+          isClicked: false, 
+          buttonText: 'Talk',
       };
     },
     methods: {
@@ -71,8 +75,39 @@
           console.log('erro while fetching data');
         }
       },
-      talk(){
-        this.userAvatar = this.userData.picUrl;
+      toggleAvatar() {
+        if (!this.isClicked) {
+          this.isClicked = true;
+          this.buttonText = 'Listening'; 
+        } else {
+          if (this.userData.comppic && !this.audioPlayer) {
+            this.audioPlayer = new Audio('hm.mp3');
+
+            this.audioPlayer.addEventListener('ended', () => {
+              this.isGifPlaying = false;
+              this.userAvatar = this.convertBinaryToDataURL(this.userData.compavatar.data); 
+              this.buttonText = 'Talk'; 
+              this.isClicked = false; 
+            });
+          }
+
+          if (this.audioPlayer) {
+            this.audioPlayer.play(); 
+            this.isGifPlaying = true; 
+            this.userAvatar = this.convertBinaryToDataURL(this.userData.comppic.data); 
+            this.buttonText = 'Playing'; 
+            this.isClicked = true; 
+          }
+        }
+      },
+      convertBinaryToDataURL(binaryData) {
+        const byteArray = new Uint8Array(binaryData);
+        let binaryString = '';
+        byteArray.forEach((byte) => {
+          binaryString += String.fromCharCode(byte);
+        });
+        const base64String = btoa(binaryString);
+        return `data:image/gif;base64,${base64String}`;
       }
     },
     mounted() {
