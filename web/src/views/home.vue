@@ -5,16 +5,16 @@
     </div>
     <div class="flex justify-center items-center h-full overflow-auto">
       <div
-        class="w-4/5 h-3/4 bg-white rounded border border-gray-00 flex flex-col py-3 px-3"
+        class="w-4/5 h-3/4 bg-white shadow-lg rounded border flex flex-col py-3 px-3"
       >
         <div class="flex flex-row justify-between items-center">
-          <h1 class="text-2xl font-bold mb-5 mt-3 ml-3">Companys List</h1>
+          <h1 class="text-xl font-medium   mb-5 mt-3 ml-3">Companys List</h1>
           <button
             @click="showNew = true"
-            class="bg-colorAccent hover:bg-blue-800 rounded w-20 duration-300 text-white flex justify-center p-1"
+            class="bg-colorAccent hover:bg-blue-800 rounded w-20 duration-300 text-white flex justify-center p-1 font-mono items-center "
           >
             <svg
-              class="h-6 w-6"
+              class="h-6 w-6 mr-1 -ml-3"
               viewBox="0 0 24 24"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -27,21 +27,21 @@
                 stroke-linejoin="round"
               />
             </svg>
+            <span class="font-medium mt-1 ml-1">New</span>
           </button>
         </div>
-        <div class="h-96 overflow-auto">
-          <table class="w-full text-md bg-gray-100 marker: rounded mb-4W">
+        <div class="h-max overflow-auto">
+          <table class="w-full text-md bg-gray-100 marker: rounded mb-4W text-sm table-fixed">
             <tbody>
               <tr class="border-b border-gray-300 rounded-t">
-                <th class="text-left p-3 px-5">Company</th>
+                <th class="text-left p-3 px-5 w-44 lg:w-64">Company</th>
                 <th class="text-left p-3 px-5 border-l border-gray-300">Biography</th>
-                <th></th>
-                <th class="text-left p-3 px-5 border-l border-gray-300">Actions</th>
+                <th class="text-left p-3 px-5 border-l border-gray-300 w-40 lg:w-80">Actions</th>
               </tr>
               <tr
                 v-for="userData in userData"
                 :key="userData.data_id"
-                class="border-b border-gray-300 hover:bg-blue-100 duration-300 bg-white"
+                class="border-b border-gray-300 hover:bg-blue-100 duration-300 bg-white text-base"
               >
                 <td class="p-3 px-5 flex flex-row">
                   <img
@@ -51,16 +51,15 @@
                   />
                   <button
                     @click="showInfo = true"
-                    class="font-thin text-lg mt-1 hover:underline"
+                    class="font-thin text-base mt-1 hover:underline"
                   >
                     {{ userData.compname }}
                   </button>
                 </td>
-                <td class="p-3 px-5 border-l border-gray-300 ">
-                  <div class="font-thin text-lg truncate text-ellipsis">{{ userData.compbio }}</div>
+                <td class="p-3 px-5 border-l border-gray-300 truncate">
+                  <div class="font-thin text-base">{{ userData.compbio }}</div>
                 </td>
-                <td class="p-3 px-5"></td>
-                <td class="p-3 px-5 border-l border-gray-300">
+                <td class="p-3 px-5 border-l border-gray-300 w-32 flex flex-row items-center">
                   <button
                     v-on:click="openTab(userData.data_id)"
                     class="duration-300 text-white p-2 rounded-full inline-flex items-center mr-2 hover:bg-green-300"
@@ -79,6 +78,7 @@
                         stroke-linejoin="round"
                       />
                     </svg>
+                    <span class="text-green-500 ml-1 hidden lg:block">open</span>
                   </button>
                   <button
                     @click="openEdit(userData)"
@@ -98,6 +98,7 @@
                         stroke-linejoin="round"
                       />
                     </svg>
+                    <span class="text-blue-500 ml-1 hidden lg:block">edit</span>
                   </button>
                   <button
                     @click="openDelete(userData.data_id)"
@@ -117,6 +118,7 @@
                         stroke-linejoin="round"
                       />
                     </svg>
+                    <span class="text-red-500 ml-1 hidden lg:block">delete</span>
                   </button>
                 </td>
               </tr>
@@ -160,7 +162,6 @@
                   <img :src="photoPreview" alt="Photo Preview" class="w-10 h-10 mb-1 rounded">
                 </div>
               </div>
-              
               <button
                 type="submit"
                 class="bg-colorAccent hover:bg-blue-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"

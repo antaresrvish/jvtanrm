@@ -2,13 +2,13 @@
   <navbar></navbar>
   <div class="flex justify-center items-center">
     <div
-    class="mx-4 mt-40 bg-gray-200 border-b border-t border-black shadow-xl rounded h-48 w-72 text-gray-900">
+    class="mx-4 mt-80 bg-gray-200 border-b border-t border-black shadow-xl rounded  w-72 text-gray-900">
       <div class="mx-auto w-32 h-32 relative -mt-16 border shadow shadow-black  rounded-full overflow-hidden ">
           <img class="object-cover object-center h-32" :src='userAvatar'>
       </div>
       <div class="text-center mt-2">
-          <h2 class="font-semibold">{{ userData.compname }}</h2>
-          <p class="text-gray-500">{{ userData.compbio }}</p>
+          <h2 class="font-semibold pt-2">{{ userData.compname }}</h2>
+          <p class="text-gray-500 whitespace-normal break-words px-2 pt-3">{{ userData.compbio }}</p>
       </div>
       <div class="p-4 border-t mx-8 mt-2">
           <button  @click="toggleAvatar" class="w-full mx-auto rounded-full bg-colorAccent hover:bg-blue-800 duration-300 font-semibold text-white px-6 py-2">{{buttonText}}</button>
