@@ -1,7 +1,7 @@
 <template>
   <div v-if="!isLoggedIn" class="flex justify-center items-center h-screen">
-    <div class="bg-gray-50 p-6 rounded border shadow-xl justify-center flex flex-col ">
-      <h1 class="text-2xl font-bold text-center mb-4">LOGIN</h1>
+    <div class="bg-gray-50 p-6 rounded-s-lg border shadow-xl justify-center flex flex-col w-96  h-80">
+      <h1 class="text-2xl font-light text-left mb-4">Sign In</h1>
       <form @submit.prevent="handleSubmit">
         <div class="mb-4">
           <label for="email" class="block text-gray-700 font-medium mb-2">Mail</label>
@@ -9,7 +9,8 @@
                   type="email"
                   id="email"
                   v-model="email"
-                  class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  placeholder="example@mail.com"
+                  class="shadow border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   required
                 />
         </div>
@@ -20,7 +21,8 @@
                   type="password"
                   id="password"
                   v-model="password"
-                  class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  placeholder="secret password"
+                  class="shadow border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   required
                 />
             <button type="button" @click="togglePasswordVisibility" class="absolute top-1/2 right-2 transform -translate-y-1/2">
@@ -34,13 +36,16 @@
             </button>
           </div>
         </div>
-        <button type="submit" class="bg-colorAccent hover:bg-blue-800 duration-300 text-white font-bold w-full py-2 px-4 rounded focus:outline-none focus:shadow-outline flex flex-row justify-end">
+        <button type="submit" class="bg-colorAccent hover:bg-blue-800 duration-300 text-white font-bold w-full py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline flex flex-row justify-center">
           Login
-          <svg class="h-6 w-6 ml-12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
- <path d="M15 3H16.2C17.8802 3 18.7202 3 19.362 3.32698C19.9265 3.6146 20.3854 4.07354 20.673 4.63803C21 5.27976 21 6.11985 21 7.8V16.2C21 17.8802 21 18.7202 20.673 19.362C20.3854 19.9265 19.9265 20.3854 19.362 20.673C18.7202 21 17.8802 21 16.2 21H15M10 7L15 12M15 12L10 17M15 12L3 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
- </svg>
+          
         </button>
       </form>
+    </div>
+    <div class="bg-gradient-to-r from-blue-400 to-blue-700 w-96 h-80 rounded-e-lg flex items-center justify-center flex-col">
+      <h1 class="text-gray-200 font-sans text-xl font-bold ">Welcome back to</h1>
+      <h1 class="text-white font-mono text-4xl mt-3 flex flex-row items-end">JVTANRM.<p class="text-xl pb-0.5 font-mono">dev</p></h1>
+      <h1 class="text-gray-200 font-sans text-lg mt-3 font-thin ">Make your company tests with AI.</h1>
     </div>
   </div>
 </template>

@@ -5,41 +5,35 @@
     </div>
     <div class="flex justify-center items-center h-full overflow-auto">
       <div
-        class="w-4/5 h-3/4 bg-white shadow-lg rounded border flex flex-col py-3 px-3"
+        class="w-4/5 h-3/4 bg-white shadow-lg rounded border flex flex-col py-0 px-0"
       >
-        <div class="flex flex-row justify-between items-center">
-          <h1 class="text-xl font-medium   mb-5 mt-3 ml-3">Companys List</h1>
+        <div class="flex flex-row justify-between items-center bg-gray-50 px-5 py-2">
+          <h1 class="text-2xl font-medium mb-5 mt-3 ml-3">Companys List</h1>
+              <div class="relative">
+                  <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                      <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                      </svg>
+                  </div>
+                  <input type="search" v-model="searchQuery" id="default-search" class="block w-96 py-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-colorAccent focus:border-colorAccent  " placeholder="Search Companys.." required />
+              </div>
           <button
             @click="showNew = true"
-            class="bg-colorAccent hover:bg-blue-800 rounded w-20 duration-300 text-white flex justify-center p-1 font-mono items-center "
+            class="bg-colorAccent hover:bg-blue-800 rounded-lg w-36 duration-300 text-white flex justify-center p-2 font-sans items-center "
           >
-            <svg
-              class="h-6 w-6 mr-1 -ml-3"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M12 8V16M8 12H16M7.8 21H16.2C17.8802 21 18.7202 21 19.362 20.673C19.9265 20.3854 20.3854 19.9265 20.673 19.362C21 18.7202 21 17.8802 21 16.2V7.8C21 6.11984 21 5.27976 20.673 4.63803C20.3854 4.07354 19.9265 3.6146 19.362 3.32698C18.7202 3 17.8802 3 16.2 3H7.8C6.11984 3 5.27976 3 4.63803 3.32698C4.07354 3.6146 3.6146 4.07354 3.32698 4.63803C3 5.27976 3 6.11984 3 7.8V16.2C3 17.8802 3 18.7202 3.32698 19.362C3.6146 19.9265 4.07354 20.3854 4.63803 20.673C5.27976 21 6.11984 21 7.8 21Z"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-            <span class="font-medium mt-1 ml-1">New</span>
+            <span class="font-normal text-sm ">New Company</span>
           </button>
         </div>
         <div class="h-max overflow-auto">
-          <table class="w-full text-md bg-gray-100 marker: rounded mb-4W text-sm table-fixed">
+          <table class="w-full text-md bg-slate-100 marker: rounded mb-4W text-sm table-fixed">
             <tbody>
-              <tr class="border-b border-gray-300 rounded-t">
-                <th class="text-left p-3 px-5 w-44 lg:w-64">Company</th>
-                <th class="text-left p-3 px-5 border-l border-gray-300">Biography</th>
-                <th class="text-left p-3 px-5 border-l border-gray-300 w-40 lg:w-80">Actions</th>
+              <tr class="border-b border-gray-300 rounded-t ">
+                <th class="text-left p-3 px-5 w-44 lg:w-64 font-medium">Company</th>
+                <th class="text-left p-3 font-medium ">Biography</th>
+                <th class="text-left p-3 px-5  w-40  font-medium lg:w-80">Actions</th>
               </tr>
               <tr
-                v-for="userData in userData"
+                v-for="userData in filteredUserData"
                 :key="userData.data_id"
                 class="border-b border-gray-300 hover:bg-blue-100 duration-300 bg-white text-base"
               >
@@ -56,16 +50,16 @@
                     {{ userData.compname }}
                   </button>
                 </td>
-                <td class="p-3 px-5 border-l border-gray-300 truncate">
+                <td class="p-3 px-5  truncate">
                   <div class="font-thin text-base">{{ userData.compbio }}</div>
                 </td>
-                <td class="p-3 px-5 border-l border-gray-300 w-32 flex flex-row items-center">
+                <td class="p-3 px-5 w-32 flex flex-row items-center">
                   <button
                     v-on:click="openTab(userData.data_id)"
-                    class="duration-300 text-white p-2 rounded-full inline-flex items-center mr-2 hover:bg-green-300"
+                    class="duration-300 text-white p-2 rounded-lg inline-flex items-center mr-2 hover:bg-blue-300"
                   >
                     <svg
-                      class="h-6 w-6 text-green-500"
+                      class="h-5 w-5 text-colorAccent"
                       viewBox="0 0 24 24"
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
@@ -78,14 +72,14 @@
                         stroke-linejoin="round"
                       />
                     </svg>
-                    <span class="text-green-500 ml-1 hidden lg:block">open</span>
+                    
                   </button>
                   <button
                     @click="openEdit(userData)"
-                    class="duration-300 text-white inline-flex items-center p-2 rounded-full hover:bg-blue-300"
+                    class="duration-300 text-white inline-flex items-center p-2 rounded-lg hover:bg-blue-300"
                   >
                     <svg
-                      class="w-6 h-6 text-blue-500"
+                      class="w-5 h-5 text-colorAccent"
                       viewBox="0 0 24 24"
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
@@ -98,14 +92,13 @@
                         stroke-linejoin="round"
                       />
                     </svg>
-                    <span class="text-blue-500 ml-1 hidden lg:block">edit</span>
                   </button>
                   <button
                     @click="openDelete(userData.data_id)"
-                    class="duration-300 text-white rounded-full ml-2 p-2 inline-flex items-center hover:bg-red-300"
+                    class="duration-300 text-white rounded-lg ml-2 p-2 inline-flex items-center hover:bg-red-300"
                   >
                     <svg
-                      class="w-6 h-6 text-red-500"
+                      class="w-5 h-5 text-red-500"
                       viewBox="0 0 24 24"
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
@@ -118,7 +111,7 @@
                         stroke-linejoin="round"
                       />
                     </svg>
-                    <span class="text-red-500 ml-1 hidden lg:block">delete</span>
+                    
                   </button>
                 </td>
               </tr>
@@ -126,8 +119,8 @@
           </table>
         </div>
         <newModal :isVisible="showNew" @close="showNew = false">
-          <div class="bg-white rounded-lg shadow-md p-6">
-            <h1 class="text-2xl font-bold text-center mb-4">Create</h1>
+          <div class="bg-white rounded-lg  p-6">
+            <h1 class="text-2xl font-medium text-center mb-4">New Company</h1>
             <form @submit.prevent="handleSubmit" class="grid">
               <div class="mb-1">
                 <label for="companyName" class="block text-gray-700 font-medium mb-2">Company Name</label>
@@ -135,7 +128,8 @@
                   type="text"
                   id="companyName"
                   v-model="companyName"
-                  class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  placeholder="Your Company Name"
+                  class="shadow border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   required
                 />
               </div>
@@ -144,13 +138,14 @@
                 <textarea
                   id="companyBio"
                   v-model="companyBio"
-                  class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  placeholder="Example Bio"
+                  class="shadow border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   required
                 ></textarea>
               </div>
               <div class="flex flex-col">
                 <label for="companyAvatar" class="block text-colorText font-thin font-sans">Upload avatar</label>
-                <input  accept="image/*" class="block  w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 duration-300 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-colorAccent file:text-white hover:file:bg-blue-800"
+                <input  accept="image/png, image/jpg, image/jpeg" class="block  w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 duration-300 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-colorAccent file:text-white hover:file:bg-blue-800"
                type="file" id="companyAvatar" @change="onAvatarChange" ref="companyAvatar" required />
                 <div v-if="avatarPreview" class="flex justify-start">
                   <img :src="avatarPreview" alt="Avatar Preview" class="my-1 w-10 h-10 rounded">
@@ -164,7 +159,7 @@
               </div>
               <button
                 type="submit"
-                class="bg-colorAccent hover:bg-blue-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                class="bg-colorAccent hover:bg-blue-800 text-white font-normal  py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline"
               >
                 Ok
               </button>
@@ -173,26 +168,31 @@
         </newModal>
         <usureModal :isVisible="showUsure" @close="showUsure = false">
           <div class="flex flex-col justify-center items-center">
-            <h2 class="text-2xl font-bold text-center mb-4">Are u sure?</h2>
+            <svg class="h-16 w-16 text-red-500" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+ <path d="M15 9L9 15M9 9L15 15M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+ </svg>
+            <h2 class="text-2xl font-medium text-center mb-1 mt-4">Are you sure?</h2>
+            <p class="text-sm text-gray-700 mb-4">If you delete, there is no coming back.</p>
             <div class="flex flex-row mt-0">
+              
               <button
-                class="bg-green-600 mr-4 p-2 w-24 rounded text-white hover:bg-green-700 duration-300"
-                @click="handleDelete(clickedCompId)"
-              >
-                Yes
-              </button>
-              <button
-                class="bg-red-600 w-24 p-2 rounded text-white hover:bg-red-700 duration-300"
+                class="bg-gray-600 w-24 p-2 rounded text-white hover:bg-gray-700 duration-300"
                 @click="showUsure = false"
               >
                 No
+              </button>
+              <button
+                class="bg-red-600 ml-4 p-2 w-24 rounded text-white hover:bg-red-700 duration-300"
+                @click="handleDelete(clickedCompId)"
+              >
+                Delete
               </button>
             </div>
           </div>
         </usureModal>
         <editModal :isVisible="showEdit" @close="showEdit = false">
-          <div class="bg-white rounded-lg shadow-md p-6">
-            <h1 class="text-2xl font-bold text-center mb-2">Edit</h1>
+          <div class="bg-white rounded-lg p-6">
+            <h1 class="text-2xl font-medium text-center mb-2">Edit Company</h1>
             <form @submit.prevent="handleEdit(clickedCompId)" class="grid">
               <div class="mb-4">
                 <label for="companyName" class="block text-gray-700 font-medium mb-1">Company Name</label>
@@ -200,7 +200,7 @@
                   type="text"
                   id="companyName"
                   v-model="clickedCompName"
-                  class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  class="shadow border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   required
                 />
               </div>
@@ -209,7 +209,7 @@
                 <textarea
                   id="companyBio"
                   v-model="clickedCompBio"
-                  class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  class="shadow border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   required
                 ></textarea>
               </div>
@@ -243,7 +243,7 @@
               </div>
               <button
                 type="submit"
-                class="bg-colorAccent hover:bg-blue-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                class="bg-colorAccent hover:bg-blue-800 text-white font-normal py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline"
               >
                 Ok
               </button>
@@ -288,7 +288,16 @@ export default {
       clickedCompPic: undefined,
       avatarPreview: null,
       photoPreview: null,
+      searchQuery: '', 
     };
+  },
+
+  computed: {
+    filteredUserData() {
+      return this.userData.filter((user) => {
+        return user.compname.toLowerCase().includes(this.searchQuery.toLowerCase());
+      });
+    },
   },
 
   methods: {
@@ -418,6 +427,8 @@ export default {
       };
       reader.readAsDataURL(file);
     },
+    searchCompanies() {
+    }
   },
   mounted() {
     const token = localStorage.getItem("token");
