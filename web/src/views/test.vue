@@ -1,19 +1,32 @@
 <template>
-  <navbar></navbar>
-  <div class="flex justify-center items-center">
-    <div
-    class="mx-4 mt-80 bg-gray-200 border-b border-t border-black shadow-xl rounded  w-72 text-gray-900">
-      <div class="mx-auto w-32 h-32 relative -mt-16 border shadow shadow-black  rounded-full overflow-hidden ">
-          <img class="object-cover object-center h-32" :src='userAvatar'>
+  <div class="flex flex-col h-dvh">
+    <div class="">
+      <navbar />
+    </div>
+    <div class="flex justify-center items-center h-full overflow-auto bg-gray-100">
+      <div class="w-96 rounded-lg shadow-md border p-4">
+        <div class="flex items-center justify-center font-sans text-2xl mb-20 font-medium">
+          Talk with your AI
+        </div>
+
+          <div class="mx-auto w-48 h-48 relative -mt-16 border shadow-lg  rounded-full overflow-hidden ">
+          <img class="object-cover object-center h-48 w-48" :src='userAvatar'>
+        </div>
+
+        
+        <div class=" flex flex-col items-center justify-center">
+          <div class="mb-4">
+            <h2 class="font-bold text-2xl text-gray-800 mt-3">{{ userData.compname }}</h2>
+          </div>
+          <p class="text-gray-600 text-base mt-2">{{ userData.compbio }}</p>
+          <div class="mt-6">
+            <button class="bg-colorAccent hover:bg-blue-800 text-white font-bold w-80 mb-2 py-2 px-4 rounded focus:outline-none focus:shadow-outline" @click="toggleAvatar">
+              {{ buttonText }}
+            </button>
+          </div>
+        </div>
       </div>
-      <div class="text-center mt-2">
-          <h2 class="font-semibold pt-2">{{ userData.compname }}</h2>
-          <p class="text-gray-500 whitespace-normal break-words px-2 pt-3">{{ userData.compbio }}</p>
-      </div>
-      <div class="p-4 border-t mx-8 mt-2">
-          <button  @click="toggleAvatar" class="w-full mx-auto rounded-full bg-colorAccent hover:bg-blue-800 duration-300 font-semibold text-white px-6 py-2">{{buttonText}}</button>
-      </div>
-    </div>  
+    </div>
   </div>
 </template>
   

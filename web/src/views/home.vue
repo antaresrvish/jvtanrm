@@ -119,140 +119,197 @@
           </table>
         </div>
         <newModal :isVisible="showNew" @close="showNew = false">
-          <div class="bg-white rounded-lg  p-6">
+          <div class="bg-white rounded-lg  p-6 w-full">
             <h1 class="text-2xl font-medium text-center mb-4">New Company</h1>
-            <form @submit.prevent="handleSubmit" class="grid">
-              <div class="mb-1">
-                <label for="companyName" class="block text-gray-700 font-medium mb-2">Company Name</label>
-                <input
-                  type="text"
-                  id="companyName"
-                  v-model="companyName"
-                  placeholder="Your Company Name"
-                  class="shadow border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  required
-                />
-              </div>
-              <div class="mb-1">
-                <label for="companyBio" class="block text-gray-700 font-medium mb-2">Company biography</label>
-                <textarea
-                  id="companyBio"
-                  v-model="companyBio"
-                  placeholder="Example Bio"
-                  class="shadow border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  required
-                ></textarea>
-              </div>
-              <div class="flex flex-col">
-                <label for="companyAvatar" class="block text-colorText font-thin font-sans">Upload avatar</label>
-                <input  accept="image/png, image/jpg, image/jpeg" class="block  w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 duration-300 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-colorAccent file:text-white hover:file:bg-blue-800"
-               type="file" id="companyAvatar" @change="onAvatarChange" ref="companyAvatar" required />
-                <div v-if="avatarPreview" class="flex justify-start">
-                  <img :src="avatarPreview" alt="Avatar Preview" class="my-1 w-10 h-10 rounded">
+            <form @submit.prevent="handleSubmit" class="grid grid-cols-2 gap-4">
+              <div class="col-span-1">
+                <div class="mb-1">
+                  <label for="companyName" class="block text-gray-700 font-medium mb-2">Company Name</label>
+                  <input
+                    type="text"
+                    id="companyName"
+                    v-model="companyName"
+                    placeholder="Your Company Name"
+                    class="shadow border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    required
+                  />
                 </div>
-                <label for="companyPhoto" class="block text-colorText font-thin font-sans">Upload gif</label>
-                <input  accept="image/gif" class="block mb-1 w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 duration-300 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-colorAccent file:text-white hover:file:bg-blue-800" 
-                type="file" id="companyPhoto" @change="onPhotoChange" ref="companyPhoto" required/>
-                <div v-if="photoPreview"  class="flex justify-start">
-                  <img :src="photoPreview" alt="Photo Preview" class="w-10 h-10 mb-1 rounded">
+                <div class="mb-1">
+                  <label for="companyBio" class="block text-gray-700 font-medium mb-2">Company biography</label>
+                  <textarea
+                    id="companyBio"
+                    v-model="companyBio"
+                    placeholder="Example Bio"
+                    class="shadow border rounded-lg w-full h-28 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    required
+                  ></textarea>
                 </div>
               </div>
-              <button
-                type="submit"
-                class="bg-colorAccent hover:bg-blue-800 text-white font-normal  py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline"
-              >
-                Ok
-              </button>
-            </form>     
-          </div>
-        </newModal>
-        <usureModal :isVisible="showUsure" @close="showUsure = false">
-          <div class="flex flex-col justify-center items-center">
-            <svg class="h-16 w-16 text-red-500" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
- <path d="M15 9L9 15M9 9L15 15M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
- </svg>
-            <h2 class="text-2xl font-medium text-center mb-1 mt-4">Are you sure?</h2>
-            <p class="text-sm text-gray-700 mb-4">If you delete, there is no coming back.</p>
-            <div class="flex flex-row mt-0">
-              
-              <button
-                class="bg-gray-600 w-24 p-2 rounded text-white hover:bg-gray-700 duration-300"
-                @click="showUsure = false"
-              >
-                No
-              </button>
-              <button
-                class="bg-red-600 ml-4 p-2 w-24 rounded text-white hover:bg-red-700 duration-300"
-                @click="handleDelete(clickedCompId)"
-              >
-                Delete
-              </button>
-            </div>
-          </div>
-        </usureModal>
-        <editModal :isVisible="showEdit" @close="showEdit = false">
-          <div class="bg-white rounded-lg p-6">
-            <h1 class="text-2xl font-medium text-center mb-2">Edit Company</h1>
-            <form @submit.prevent="handleEdit(clickedCompId)" class="grid">
-              <div class="mb-4">
-                <label for="companyName" class="block text-gray-700 font-medium mb-1">Company Name</label>
-                <input
-                  type="text"
-                  id="companyName"
-                  v-model="clickedCompName"
-                  class="shadow border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  required
-                />
-              </div>
-              <div class="mb-0">
-                <label for="companyBio" class="block text-gray-700 font-medium mb-1">Company biography</label>
-                <textarea
-                  id="companyBio"
-                  v-model="clickedCompBio"
-                  class="shadow border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  required
-                ></textarea>
-              </div>
-              <div class="mb-0">
-                <label for="companyAvatar" class="block text-gray-700 font-medium mb-0">Upload avatar</label>
-                <input
-                  type="file"
-                  id="companyAvatar"
-                  accept="image/*, video/*"
-                  ref="companyAvatar"
-                  class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 duration-300 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-colorAccent file:text-white hover:file:bg-blue-800"
-                  @change="onAvatarChange"
-                />
-                <div v-if="avatarPreview">
-                  <img :src="avatarPreview" class="mt-1 w-10 h-10 rounded-md border border-gray-300">
+              <div class="col-span-1 border-l pl-3">
+                <div class="mb-1 relative w-full flex flex-row items-center justify-center">
+                  <input
+                    accept="image/png, image/jpg, image/jpeg"
+                    class="absolute inset-0 opacity-0 cursor-pointer"
+                    type="file"
+                    id="companyAvatar"
+                    @change="onAvatarChange"
+                    ref="companyAvatar"
+                    required
+                  />
+                  <button
+                    class="bg-colorAccent hover:bg-blue-800 text-white font-normal w-32  py-2 px-4 mr-2 rounded-lg focus:outline-none focus:shadow-outline"
+                  >
+                    Select Avatar
+                  </button>
+                  <div v-if="avatarPreview" class="flex justify-start mt-2">
+                    <img :src="avatarPreview" alt="Avatar Preview" class="my-1 w-24 h-24 rounded">
+                  </div>
+                  <div v-else class="flex justify-start mt-2">
+                    <img src="https://via.placeholder.com/100" alt="Default Avatar" class="my-1 w-24 rounded">
+                  </div>
+                </div>
+                <div class="mb-1 relative w-full flex flex-row items-center justify-center">
+                  <input
+                    accept="image/gif"
+                    class="absolute inset-0 opacity-0 cursor-pointer"
+                    type="file"
+                    id="companyPhoto"
+                    @change="onPhotoChange"
+                    ref="companyPhoto"
+                    required
+                  />
+                  <button
+                    class="bg-colorAccent hover:bg-blue-800 text-white font-normal w-32  py-2 px-4 mr-2 rounded-lg focus:outline-none focus:shadow-outline"
+                  >
+                    Select Gif
+                  </button>
+                  <div v-if="photoPreview" class="flex justify-start mt-2">
+                    <img :src="photoPreview" alt="Photo Preview" class="w-24 h-24 mb-1 rounded">
+                  </div>
+                  <div v-else class="flex justify-start mt-2">
+                    <img src="https://via.placeholder.com/100" alt="Default Gif" class="w-24 mb-1 rounded">
+                  </div>
                 </div>
               </div>
-              <div class="mb-0">
-                <label for="companyPhoto" class="block text-gray-700 font-medium mb-0">Upload photo</label>
-                <input
-                  type="file"
-                  id="companyPhoto"
-                  accept="image/gif"
-                  ref="companyPhoto"
-                  class="block w-full mb-1 text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 duration-300 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-colorAccent file:text-white hover:file:bg-blue-800"
-                  @change="onPhotoChange"
-                />
-                <div v-if="photoPreview">
-                  <img :src="photoPreview" class="my-1 w-10 h-10 rounded-md border border-gray-300">
-                </div>
+              <div class="col-span-2 flex justify-center">
+                <button
+                  type="submit"
+                  class="bg-colorAccent hover:bg-blue-800 text-white font-normal w-full  py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline"
+                  
+                >
+                  Ok
+                </button>
               </div>
-              <button
-                type="submit"
-                class="bg-colorAccent hover:bg-blue-800 text-white font-normal py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline"
-              >
-                Ok
-              </button>
             </form>
           </div>
-        </editModal>
-      </div>
-    </div>
-  </div>
+        </newModal>
+              <usureModal :isVisible="showUsure" @close="showUsure = false">
+                <div class="flex flex-col justify-center items-center">
+                  <svg class="h-16 w-16 text-red-500" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M15 9L9 15M9 9L15 15M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+                  <h2 class="text-2xl font-medium text-center mb-1 mt-4">Are you sure?</h2>
+                  <p class="text-sm text-gray-700 mb-4">If you delete, there is no coming back.</p>
+                  <div class="flex flex-row mt-0">
+                    
+                    <button
+                      class="bg-gray-600 w-24 p-2 rounded text-white hover:bg-gray-700 duration-300"
+                      @click="showUsure = false"
+                    >
+                      No
+                    </button>
+                    <button
+                      class="bg-red-600 ml-4 p-2 w-24 rounded text-white hover:bg-red-700 duration-300"
+                      @click="handleDelete(clickedCompId)"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </div>
+              </usureModal>
+              <editModal :isVisible="showEdit" @close="showEdit = false">
+                <div class="bg-white rounded-lg  p-6 w-full">
+            <h1 class="text-2xl font-medium text-center mb-4">New Company</h1>
+            <form @submit.prevent="handleEdit(clickedCompId)" class="grid grid-cols-2 gap-4">
+              <div class="col-span-1">
+                <div class="mb-1">
+                  <label for="companyName" class="block text-gray-700 font-medium mb-2">Company Name</label>
+                  <input
+                    type="text"
+                    id="companyName"
+                    v-model="clickedCompName"
+                    placeholder="Your Company Name"
+                    class="shadow border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    required
+                  />
+                </div>
+                <div class="mb-1">
+                  <label for="companyBio" class="block text-gray-700 font-medium mb-2">Company biography</label>
+                  <textarea
+                    id="companyBio"
+                    v-model="clickedCompBio"
+                    placeholder="Example Bio"
+                    class="shadow border rounded-lg w-full h-28 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    required
+                  ></textarea>
+                </div>
+              </div>
+              <div class="col-span-1 border-l pl-3">
+                <div class="mb-1 relative w-full flex flex-row items-center justify-center">
+                  <input
+                    accept="image/png, image/jpg, image/jpeg"
+                    class="absolute inset-0 opacity-0 cursor-pointer"
+                    type="file"
+                    id="companyAvatar"
+                    @change="onAvatarChange"
+                    ref="companyAvatar"
+                    required
+                  />
+                  <button
+                    class="bg-colorAccent hover:bg-blue-800 text-white font-normal w-32  py-2 px-4 mr-2 rounded-lg focus:outline-none focus:shadow-outline"
+                  >
+                    Select Avatar
+                  </button>
+                  <div  class="flex justify-start mt-2">
+                    <img :src="clickedCompAvatar" alt="Avatar Preview" class="my-1 w-24 h-24 rounded">
+                  </div>
+                </div>
+                <div class="mb-1 relative w-full flex flex-row items-center justify-center">
+                  <input
+                    accept="image/gif"
+                    class="absolute inset-0 opacity-0 cursor-pointer"
+                    type="file"
+                    id="companyPhoto"
+                    @change="onPhotoChange"
+                    ref="companyPhoto"
+                    required
+                  />
+                  <button
+                    class="bg-colorAccent hover:bg-blue-800 text-white font-normal w-32  py-2 px-4 mr-2 rounded-lg focus:outline-none focus:shadow-outline"
+                  >
+                    Select Gif
+                  </button>
+                  <div class="flex justify-start mt-2">
+                    <img :src="clickedCompPic" alt="Photo Preview" class="w-24 h-24 mb-1 rounded">
+                  </div>
+                </div>
+              </div>
+              <div class="col-span-2 flex justify-center">
+                <button
+                  type="submit"
+                  class="bg-colorAccent hover:bg-blue-800 text-white font-normal w-full  py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline"
+                  
+                >
+                  Ok
+                </button>
+              </div>
+            </form>
+          </div>
+                
+              </editModal>
+            </div>
+          </div>
+        </div>
 </template>
 
 <script>
@@ -298,6 +355,8 @@ export default {
         return user.compname.toLowerCase().includes(this.searchQuery.toLowerCase());
       });
     },
+    
+
   },
 
   methods: {
@@ -324,6 +383,17 @@ export default {
           } else {
             user.avatarUrl = "";
           }
+          if (user.comppic && user.comppic.data) {
+            const byteArray1 = new Uint8Array(user.comppic.data);
+            let binaryString1 = "";
+            byteArray1.forEach((byte) => {
+              binaryString1 += String.fromCharCode(byte);
+            });
+            const base64String1 = btoa(binaryString1);
+            user.picUrl = `data:image/gif;base64,${base64String1}`;
+          } else {
+            user.picUrl  = "";
+          }
           return user;
         });
       } catch (ex) {
@@ -331,6 +401,7 @@ export default {
       }
     },
     async handleSubmit() {
+      this.resetPreviews();
       try {
         const formData = new FormData();
         formData.append("companyName", this.companyName);
@@ -354,6 +425,7 @@ export default {
       }
     },
     async handleEdit(dataId){
+      this.resetPreviews();
       try {
         const formData = new FormData();
         formData.append("companyName", this.clickedCompName);
@@ -399,6 +471,8 @@ export default {
       this.clickedCompId = userData.data_id;
       this.clickedCompName = userData.compname;
       this.clickedCompBio = userData.compbio;
+      this.clickedCompAvatar = userData.avatarUrl;
+      this.clickedCompPic = userData.picUrl;
       this.showEdit = true;
     },
     openTab(id){
@@ -427,8 +501,11 @@ export default {
       };
       reader.readAsDataURL(file);
     },
-    searchCompanies() {
-    }
+    resetPreviews() {
+      this.avatarPreview = null;
+      this.photoPreview = null;
+    },
+    
   },
   mounted() {
     const token = localStorage.getItem("token");
@@ -436,6 +513,7 @@ export default {
     if (token) {
       this.loadUser();
     }
+    
   },
   watch: {
     $route: function (to, from) {
