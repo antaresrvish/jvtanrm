@@ -10,7 +10,7 @@
         <div class="flex flex-row justify-between items-center bg-gray-50 px-5 py-2">
           <h1 class="text-2xl font-medium mb-5 mt-3 ml-3">Companys List</h1>
               <div class="relative">
-                  <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                  <div class="absolute inset-y-0 start-0 flex items-center ps-3 ">
                       <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                           <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                       </svg>
@@ -25,7 +25,7 @@
           </button>
         </div>
         <div class="h-max overflow-auto">
-          <table class="w-full text-md bg-slate-100 marker: rounded mb-4W text-sm table-fixed">
+          <table class="w-full text-md bg-slate-100 marker: rounded text-sm table-fixed">
             <tbody>
               <tr class="border-b border-gray-300 rounded-t ">
                 <th class="text-left p-3 px-5 w-44 lg:w-64 font-medium">Company</th>
@@ -37,7 +37,7 @@
                 :key="userData.data_id"
                 class="border-b border-gray-300 hover:bg-blue-100 duration-300 bg-white text-base"
               >
-                <td class="p-3 px-5 flex flex-row">
+                <td class="p-1 px-3 flex flex-row h-12 items-center">
                   <img
                     :src="userData.avatarUrl"
                     class="w-10 h-10 rounded-full mr-4"
@@ -50,10 +50,10 @@
                     {{ userData.compname }}
                   </button>
                 </td>
-                <td class="p-3 px-5  truncate">
+                <td class="p-1 px-3  truncate h-12">
                   <div class="font-thin text-base">{{ userData.compbio }}</div>
                 </td>
-                <td class="p-3 px-5 w-32 flex flex-row items-center">
+                <td class="p-1 px-3 w-32 h-12">          
                   <button
                     v-on:click="openTab(userData.data_id)"
                     class="duration-300 text-white p-2 rounded-lg inline-flex items-center mr-2 hover:bg-blue-300"
@@ -263,7 +263,7 @@
                     id="companyAvatar"
                     @change="onAvatarChange"
                     ref="companyAvatar"
-                    required
+                    
                   />
                   <button
                     class="bg-colorAccent hover:bg-blue-800 text-white font-normal w-32  py-2 px-4 mr-2 rounded-lg focus:outline-none focus:shadow-outline"
@@ -282,7 +282,7 @@
                     id="companyPhoto"
                     @change="onPhotoChange"
                     ref="companyPhoto"
-                    required
+                    
                   />
                   <button
                     class="bg-colorAccent hover:bg-blue-800 text-white font-normal w-32  py-2 px-4 mr-2 rounded-lg focus:outline-none focus:shadow-outline"
@@ -472,6 +472,7 @@ export default {
       this.clickedCompName = userData.compname;
       this.clickedCompBio = userData.compbio;
       this.clickedCompAvatar = userData.avatarUrl;
+      
       this.clickedCompPic = userData.picUrl;
       this.showEdit = true;
     },
@@ -490,7 +491,9 @@ export default {
       const reader = new FileReader();
       reader.onload = (e) => {
         this.avatarPreview = e.target.result;
+        this.clickedCompAvatar = e.target.result;
       };
+
       reader.readAsDataURL(file);
     },
     onPhotoChange(event) {
@@ -498,6 +501,7 @@ export default {
       const reader = new FileReader();
       reader.onload = (e) => {
         this.photoPreview = e.target.result;
+        this.clickedCompPic = e.target.result;
       };
       reader.readAsDataURL(file);
     },

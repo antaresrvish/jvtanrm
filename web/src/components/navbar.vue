@@ -1,7 +1,7 @@
 <template>
     <nav class="bg-gray-50 border-b shadow">
       <div class="mx-5 px-0 py-3 flex justify-between items-center">
-        <a href="#" class="text-colorText  text-2xl font-sans">JVTANRM.dev</a>
+        <a href="/" class="text-colorText  text-2xl font-sans">JVTANRM.dev</a>
         <button v-if="isLoggedIn" @click="logout" class="text-colorText hover:text-red-600 duration-300 flex flex-row">
           <span class="font-light mr-1 text-base">Logout</span>
           <svg class="h-6 w-5 " viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

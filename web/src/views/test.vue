@@ -4,21 +4,18 @@
       <navbar />
     </div>
     <div class="flex justify-center items-center h-full overflow-auto bg-gray-100">
-      <div class="w-96 rounded-lg shadow-md border p-4">
+      <div class="w-96 rounded-lg shadow-md border p-4 bg-gray-50">
         <div class="flex items-center justify-center font-sans text-2xl mb-20 font-medium">
           Talk with your AI
         </div>
-
-          <div class="mx-auto w-48 h-48 relative -mt-16 border shadow-lg  rounded-full overflow-hidden ">
+        <div class="mx-auto w-48 h-48 relative -mt-16 border shadow-lg  rounded-3xl overflow-hidden mb-2">
           <img class="object-cover object-center h-48 w-48" :src='userAvatar'>
         </div>
-
-        
         <div class=" flex flex-col items-center justify-center">
           <div class="mb-4">
-            <h2 class="font-bold text-2xl text-gray-800 mt-3">{{ userData.compname }}</h2>
+            <h2 class="font-bold font-mono text-2xl text-gray-800 mt-2">{{ userData.compname }}</h2>
           </div>
-          <p class="text-gray-600 text-base mt-2">{{ userData.compbio }}</p>
+          <p class="text-gray-600 text-base">{{ userData.compbio }}</p>
           <div class="mt-6">
             <button class="bg-colorAccent hover:bg-blue-800 text-white font-bold w-80 mb-2 py-2 px-4 rounded focus:outline-none focus:shadow-outline" @click="toggleAvatar">
               {{ buttonText }}
