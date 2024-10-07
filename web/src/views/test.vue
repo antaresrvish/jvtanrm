@@ -5,8 +5,8 @@
     </div>
     <div class="flex justify-center items-center h-full overflow-auto">
       <div class="w-96 rounded-lg p-4">
-        <div class="mx-auto w-48 h-48 relative -mt-16 rounded-3xl overflow-hidden mb-2">
-          <img class="object-cover object-center h-48 w-48" :src='userAvatar'>
+        <div class="mx-auto w-80 h-80 relative -mt-16 rounded-3xl overflow-hidden mb-2">
+          <img class="object-cover object-center h-80 w-80" :src='userAvatar'>
         </div>
         <div class="flex flex-col items-center justify-center">
           <h2 class="font-normal font-sans text-2xl text-gray-800 mt-2 mb-4">{{ userData.compname }}</h2>
